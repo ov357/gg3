@@ -440,16 +440,95 @@ def compile_cbs(cb=[]):
     tbstr.append(s)
     return tbstr
 
+def cb1():
+    cb1 = [
+            [1,4,6,12],
+            [1,4,6,13],
+            [1,4,7,12],
+            [1,4,7,13],
+            [1,4,8,12],
+            [1,4,8,13],
+            [1,4,9,12],
+            [1,4,9,13],
+            [1,4,10,12],
+            [1,4,10,13],
+            [1,4,11,12],
+            [1,4,11,13],
+            [1,5,6,12],
+            [1,5,6,13],
+            [1,5,7,12],
+            [1,5,7,13],
+            [1,5,8,12],
+            [1,5,8,13],
+            [1,5,9,12],
+            [1,5,9,13],
+            [1,5,10,12],
+            [1,5,10,13],
+            [1,5,11,12],
+            [1,5,11,13],
+            [2,4,6,12],
+            [2,4,6,13],
+            [2,4,7,12],
+            [2,4,7,13],
+            [2,4,8,12],
+            [2,4,8,13],
+            [2,4,9,12],
+            [2,4,9,13],
+            [2,4,10,12],
+            [2,4,10,13],
+            [2,4,11,12],
+            [2,4,11,13],
+            [2,5,6,12],
+            [2,5,6,13],
+            [2,5,7,12],
+            [2,5,8,13],
+            [2,5,8,12],
+            [2,5,8,13],
+            [2,5,9,12],
+            [2,5,9,13],
+            [2,5,10,12],
+            [2,5,10,13],
+            [2,5,11,12],
+            [2,5,11,13],
+            [3,4,6,12],
+            [3,4,6,13],
+            [3,4,7,12],
+            [3,4,7,13],
+            [3,4,8,12],
+            [3,4,8,13],
+            [3,4,9,12],
+            [3,4,9,13],
+            [3,4,10,12],
+            [3,4,10,13],
+            [3,4,11,12],
+            [3,4,11,13],
+            [3,5,6,12],
+            [3,5,6,13],
+            [3,5,7,12],
+            [3,5,8,13],
+            [3,5,8,12],
+            [3,5,8,13],
+            [3,5,9,12],
+            [3,5,9,13],
+            [3,5,10,12],
+            [3,5,10,13],
+            [3,5,11,12],
+            [3,5,11,13],
+    ]
+    return cb1
+
 
 @app.route("/m4", methods = ['GET', 'POST'])
-def m4(c=[0,1,2,3,4,5,6,7,8,9],flg = 9, rt = 'html', rdm='N', comp='y'):
+def m4(c=[0,1,2,3,4,5,6,7,8,9],flg = 9, rt = 'html', rdm='N', comp='y', combi = 0):
     # set flg = 11 to apply -1 in 6,7,8 and -1 in 9,10,11
     # provide 11 members LT
     # rt = html means that the routine will use the return render template
     # rt = raw will return combs as a list
     # rdm allow to shuffle the lt passed to m4 routine possible value = Y/N
     # rdm defaults to N
-    #compile = y will return by default the combs compiled in a champ reduit
+    # compile = y will return by default the combs compiled in a champ reduit
+    # combi permet de choisir parmi les tableaux de combs a utiliser
+    # pour generer les jeux 0 = default 1 = cb1()
     dm = list(range(9,19))
     flg = request.args.get("flg")
     query = request.args.get("lt")
@@ -484,8 +563,6 @@ def m4(c=[0,1,2,3,4,5,6,7,8,9],flg = 9, rt = 'html', rdm='N', comp='y'):
     cbs = [
     		[1, 4, 2, 5],
     		[1, 4, 2, 9],
-    		[1, 8, 2, 5],
-    		[1, 8, 2, 9],
     		[1, 4, 2, 6],
     		[1, 4, 2, 7],
     		[1, 8, 2, 6],
@@ -507,6 +584,10 @@ def m4(c=[0,1,2,3,4,5,6,7,8,9],flg = 9, rt = 'html', rdm='N', comp='y'):
     		[3, 7, 1, 5],
     		[3, 7, 1, 9],
     	]
+    #print(cbs)
+    if combi == 1:
+        cbs = cb1()
+    #print(cbs)
     l = [0,1,2]
     #print(r[:],c)
     combs = []
@@ -516,7 +597,10 @@ def m4(c=[0,1,2,3,4,5,6,7,8,9],flg = 9, rt = 'html', rdm='N', comp='y'):
             c1 = []
             for j in i:
                 #print(c[j], end='-')
-                c1.append(c[j])
+                try:
+                    c1.append(c[j])
+                except:
+                    c1.append(j)
             #print()
             combs.append(c1)
     print(combs)
